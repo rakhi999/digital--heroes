@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server';import {adminClient} from '@/lib/admin';export async function GET(){const {data,error}=await adminClient().from('charities').select('*').order('name');return NextResponse.json({charities:data||[],error:error?.message})}
+export async function POST(req:Request){const body=await req.json();const {data,error}=await adminClient().from('charities').insert(body).select().single();return NextResponse.json({charity:data,error:error?.message},{status:error?400:200})}
+export async function PATCH(req:Request){const body=await req.json();const {id,...patch}=body;const {data,error}=await adminClient().from('charities').update(patch).eq('id',id).select().single();return NextResponse.json({charity:data,error:error?.message})}
+export async function DELETE(req:Request){const {id}=await req.json();const {error}=await adminClient().from('charities').delete().eq('id',id);return NextResponse.json({error:error?.message})}

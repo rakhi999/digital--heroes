@@ -1,0 +1,3 @@
+export function randomNumbers(){return [...Array(45)].map((_,i)=>i+1).sort(()=>Math.random()-.5).slice(0,5).sort((a,b)=>a-b)}
+export function weightedNumbers(scores:number[]){const freq=new Map<number,number>();scores.forEach(s=>freq.set(s,(freq.get(s)||0)+1));const pool=[...Array(45)].map((_,i)=>i+1);const out:number[]=[];while(out.length<5&&pool.length){const weights=pool.map(n=>(freq.get(n)||0)+1);const total=weights.reduce((a,b)=>a+b,0);let r=Math.random()*total,idx=0;for(;idx<weights.length-1;idx++){r-=weights[idx];if(r<=0)break}out.push(pool.splice(idx,1)[0])}return out.sort((a,b)=>a-b)}
+export function matchCount(scores:number[],winning:number[]){const set=new Set(winning);return scores.filter(s=>set.has(s)).length}
