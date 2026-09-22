@@ -1,11 +1,4 @@
-import { NextResponse } from 'next/server';
-
-export async function GET() {
-  const charities = [
-    { id: "1", name: "Education for All", description: "Education support", total_raised: 12500 },
-    { id: "2", name: "Health & Hope Foundation", description: "Medical support", total_raised: 8900 },
-    { id: "3", name: "Green Earth Initiative", description: "Environment care", total_raised: 15200 },
-    { id: "4", name: "Animal Rescue League", description: "Animal care", total_raised: 6700 }
-  ];
-    return NextResponse.json({  charities  });
-}
+import {NextResponse} from 'next/server';import {adminClient} from '@/lib/admin';export async function GET(){const {data,error}=await adminClient().from('charities').select('*').order('name');return NextResponse.json({charities:data||[],error:error?.message})}
+export async function POST(req:Request){const body=await req.json();const {data,error}=await adminClient().from('charities').insert(body).select().single();return NextResponse.json({charity:data,error:error?.message},{status:error?400:200})}
+export async function PATCH(req:Request){const body=await req.json();const {id,...patch}=body;const {data,error}=await adminClient().from('charities').update(patch).eq('id',id).select().single();return NextResponse.json({charity:data,error:error?.message})}
+export async function DELETE(req:Request){const {id}=await req.json();const {error}=await adminClient().from('charities').delete().eq('id',id);return NextResponse.json({error:error?.message})}
