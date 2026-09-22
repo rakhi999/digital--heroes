@@ -7,5 +7,5 @@ export async function GET() {
     { id: '3', name: 'Clean Ocean' },
     { id: '4', name: 'Animal Rescue' },
   ];
-  return NextResponse.json(charities);
+  return NextResponse.json({charities});
 }
