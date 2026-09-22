@@ -7,5 +7,5 @@ export async function GET() {
     { id: "3", name: "Green Earth Initiative", description: "Environment care", total_raised: 15200 },
     { id: "4", name: "Animal Rescue League", description: "Animal care", total_raised: 6700 }
   ];
-  return NextResponse.json({ charities });
+    return NextResponse.json({ charities });
 }
